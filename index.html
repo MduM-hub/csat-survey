@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Satisfaction Survey - Service Delivery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .form-section {
+            margin-bottom: 35px;
+        }
+
+        .section-title {
+            color: #667eea;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .question-group {
+            margin-bottom: 25px;
+        }
+
+        .question-label {
+            color: #333;
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .rating-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .rating-option {
+            flex: 1;
+            min-width: 80px;
+        }
+
+        .rating-option input[type="radio"] {
+            display: none;
+        }
+
+        .rating-option label {
+            display: block;
+            padding: 10px;
+            text-align: center;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 13px;
+            font-weight: 500;
+            color: #666;
+        }
+
+        .rating-option input[type="radio"]:checked + label {
+            background-color: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .rating-option label:hover {
+            border-color: #667eea;
+            background-color: #f9f9f9;
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: border-color 0.3s ease;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea.text-input {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit {
+            background-color: #667eea;
+            color: white;
+            min-width: 150px;
+        }
+
+        .btn-submit:hover {
+            background-color: #5568d3;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-reset {
+            background-color: #f0f0f0;
+            color: #333;
+            min-width: 150px;
+        }
+
+        .btn-reset:hover {
+            background-color: #e0e0e0;
+        }
+
+        .success-message {
+            display: none;
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .required-note {
+            color: #999;
+            font-size: 13px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .rating-options {
+                flex-direction: column;
+            }
+
+            .rating-option {
+                min-width: 100%;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Customer Satisfaction Survey</h1>
+            <p>Service Delivery & Support Experience</p>
+        </div>
+
+        <form id="csatForm">
+            <!-- Section 1: Overall Service Experience -->
+            <div class="form-section">
+                <div class="section-title">Section 1: Overall Service Experience</div>
+                
+                <div class="question-group">
+                    <label class="question-label">1. How satisfied were you with the overall service you received?</label>
+                    <div class="rating-options">
+                        <div class="rating-option">
+                            <input type="radio" id="q1_1" name="q1" value="1" required>
+                            <label for="q1_1">Very Dissatisfied</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q1_2" name="q1" value="2">
+                            <label for="q1_2">Dissatisfied</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q1_3" name="q1" value="3">
+                            <label for="q1_3">Neutral</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q1_4" name="q1" value="4">
+                            <label for="q1_4">Satisfied</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q1_5" name="q1" value="5">
+                            <label for="q1_5">Very Satisfied</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label">2. Did the service meet your expectations?</label>
+                    <div class="rating-options">
+                        <div class="rating-option">
+                            <input type="radio" id="q2_1" name="q2" value="1" required>
+                            <label for="q2_1">Far Below</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q2_2" name="q2" value="2">
+                            <label for="q2_2">Below</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q2_3" name="q2" value="3">
+                            <label for="q2_3">Met</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q2_4" name="q2" value="4">
+                            <label for="q2_4">Exceeded</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q2_5" name="q2" value="5">
+                            <label for="q2_5">Far Exceeded</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Service Delivery Quality -->
+            <div class="form-section">
+                <div class="section-title">Section 2: Service Delivery Quality</div>
+                
+                <div class="question-group">
+                    <label class="question-label">3. How would you rate the quality of the service delivered?</label>
+                    <div class="rating-options">
+                        <div class="rating-option">
+                            <input type="radio" id="q3_1" name="q3" value="1" required>
+                            <label for="q3_1">Very Poor</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q3_2" name="q3" value="2">
+                            <label for="q3_2">Poor</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q3_3" name="q3" value="3">
+                            <label for="q3_3">Average</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q3_4" name="q3" value="4">
+                            <label for="q3_4">Good</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q3_5" name="q3" value="5">
+                            <label for="q3_5">Excellent</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label">4. How well did our team understand your needs?</label>
+                    <div class="rating-options">
+                        <div class="rating-option">
+                            <input type="radio" id="q4_1" name="q4" value="1" required>
+                            <label for="q4_1">Not at All</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q4_2" name="q4" value="2">
+                            <label for="q4_2">Poorly</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q4_3" name="q4" value="3">
+                            <label for="q4_3">Adequately</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q4_4" name="q4" value="4">
+                            <label for="q4_4">Well</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q4_5" name="q4" value="5">
+                            <label for="q4_5">Excellently</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Communication and Support -->
+            <div class="form-section">
+                <div class="section-title">Section 3: Communication and Support</div>
+                
+                <div class="question-group">
+                    <label class="question-label">5. How clear and helpful was the communication from our support team?</label>
+                    <div class="rating-options">
+                        <div class="rating-option">
+                            <input type="radio" id="q5_1" name="q5" value="1" required>
+                            <label for="q5_1">Very Unclear</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q5_2" name="q5" value="2">
+                            <label for="q5_2">Unclear</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q5_3" name="q5" value="3">
+                            <label for="q5_3">Neutral</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q5_4" name="q5" value="4">
+                            <label for="q5_4">Clear</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q5_5" name="q5" value="5">
+                            <label for="q5_5">Very Clear</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label">6. How responsive was our team to your inquiries and concerns?</label>
+                    <div class="rating-options">
+                        <div class="rating-option">
+                            <input type="radio" id="q6_1" name="q6" value="1" required>
+                            <label for="q6_1">Very Slow</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q6_2" name="q6" value="2">
+                            <label for="q6_2">Slow</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q6_3" name="q6" value="3">
+                            <label for="q6_3">Adequate</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q6_4" name="q6" value="4">
+                            <label for="q6_4">Fast</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q6_5" name="q6" value="5">
+                            <label for="q6_5">Very Fast</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label">7. How would you rate the professionalism of our staff?</label>
+                    <div class="rating-options">
+                        <div class="rating-option">
+                            <input type="radio" id="q7_1" name="q7" value="1" required>
+                            <label for="q7_1">Very Poor</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q7_2" name="q7" value="2">
+                            <label for="q7_2">Poor</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q7_3" name="q7" value="3">
+                            <label for="q7_3">Average</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q7_4" name="q7" value="4">
+                            <label for="q7_4">Good</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q7_5" name="q7" value="5">
+                            <label for="q7_5">Excellent</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: Timeliness and Efficiency -->
+            <div class="form-section">
+                <div class="section-title">Section 4: Timeliness and Efficiency</div>
+                
+                <div class="question-group">
+                    <label class="question-label">8. How satisfied were you with the timeliness of service delivery?</label>
+                    <div class="rating-options">
+                        <div class="rating-option">
+                            <input type="radio" id="q8_1" name="q8" value="1" required>
+                            <label for="q8_1">Very Dissatisfied</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q8_2" name="q8" value="2">
+                            <label for="q8_2">Dissatisfied</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q8_3" name="q8" value="3">
+                            <label for="q8_3">Neutral</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q8_4" name="q8" value="4">
+                            <label for="q8_4">Satisfied</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q8_5" name="q8" value="5">
+                            <label for="q8_5">Very Satisfied</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label">9. Would you recommend our service to others?</label>
+                    <div class="rating-options">
+                        <div class="rating-option">
+                            <input type="radio" id="q9_1" name="q9" value="1" required>
+                            <label for="q9_1">Definitely Not</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q9_2" name="q9" value="2">
+                            <label for="q9_2">Probably Not</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q9_3" name="q9" value="3">
+                            <label for="q9_3">Maybe</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q9_4" name="q9" value="4">
+                            <label for="q9_4">Probably Yes</label>
+                        </div>
+                        <div class="rating-option">
+                            <input type="radio" id="q9_5" name="q9" value="5">
+                            <label for="q9_5">Definitely Yes</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 5: Open-Ended Feedback -->
+            <div class="form-section">
+                <div class="section-title">Section 5: Open-Ended Feedback</div>
+                
+                <div class="question-group">
+                    <label class="question-label">10. What did you like most about our service?</label>
+                    <textarea class="text-input" name="q10" placeholder="Please share your thoughts..."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label">11. What areas could we improve?</label>
+                    <textarea class="text-input" name="q11" placeholder="Please share your suggestions..."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label class="question-label">12. Do you have any additional comments or suggestions?</label>
+                    <textarea class="text-input" name="q12" placeholder="Please share any additional feedback..."></textarea>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn-submit">Submit Survey</button>
+                <button type="reset" class="btn-reset">Clear Form</button>
+            </div>
+
+            <div class="success-message" id="successMessage">
+                ✓ Thank you! Your feedback has been submitted successfully.
+            </div>
+
+            <p class="required-note">Thank you for taking the time to complete this survey. Your feedback helps us improve our service delivery.</p>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('csatForm');
+        const successMessage = document.getElementById('successMessage');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Collect form data
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+
+            // Log the data to console (in a real application, this would be sent to a server)
+            console.log('Survey Response:', data);
+
+            // Display success message
+            successMessage.style.display = 'block';
+
+            // Optional: Reset form after 3 seconds
+            setTimeout(() => {
+                form.reset();
+                successMessage.style.display = 'none';
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
